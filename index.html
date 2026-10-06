@@ -21,7 +21,7 @@
 
 <header class="nav">
   <a class="brand" href="#top" aria-label="KeyPulse home"><span class="brand-icon"><img src="icon.png" alt=""></span><span>KeyPulse</span></a>
-  <nav class="nav-links" aria-label="Primary navigation"><a href="#extract">Extract</a><a href="#compare">Compare</a><a href="#history">History</a><a href="#support">Support</a></nav>
+  <nav class="nav-links" aria-label="Primary navigation"><a href="#extract">Extract</a><a href="#compare">Compare</a><a href="#support">Support</a></nav>
   <div class="nav-right"><span class="local-pill"><i></i>Local only</span><button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button></div>
 </header>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div class="compare-bar"><div class="mode-group"><span>COMPARE</span><button data-mode="variable" class="active">Variables</button><button data-mode="value">Values</button><button data-mode="both">Both</button></div>
-      <label class="search"><span>⌕</span><input id="compareSearch" autocomplete="off" placeholder="Search variable names…"><kbd>Ctrl K</kbd></label><button class="btn quiet small reset-btn" id="resetCompare" type="button">Reset</button>
+      <label class="search"><span>⌕</span><input id="compareSearch" autocomplete="off" placeholder="Search variable names…"><kbd>Ctrl K</kbd></label><button class="btn quiet small" id="refreshCompare" type="button" disabled title="Choose files with Browse to enable same-path recheck">↻ Recheck files</button><button class="btn quiet small reset-btn" id="resetCompare" type="button">Reset</button>
     </div>
 
     <div class="stats" id="stats">
@@ -86,10 +86,7 @@
   </article>
 </section>
 
-<section class="section reveal" id="history">
-  <div class="section-head"><div><span class="section-kicker">03 · HISTORY</span><h2>Recent checks, stored locally.</h2><p>Only filenames and result counts are saved. Secrets and file contents are never stored.</p></div><button class="btn quiet small" id="clearHistory">Clear history</button></div>
-  <article class="panel history-panel"><div class="history-status"><span class="panel-icon">◷</span><div><b>Browser-only activity</b><small id="historyCount">0 events</small></div><span class="history-private">PRIVATE</span></div><div class="history-list" id="historyList"><div class="empty"><span class="empty-icon">◌</span><b>No local history yet</b><small>Your extraction and comparison activity will appear here.</small></div></div></article>
-</section>
+
 
 <section class="section mini-features reveal"><div class="mini"><span>01</span><b>Private</b><p>No server receives your config.</p></div><div class="mini"><span>02</span><b>Useful</b><p>Find real differences without noise.</p></div><div class="mini"><span>03</span><b>Simple</b><p>No account, setup or learning curve.</p></div></section>
 </main>

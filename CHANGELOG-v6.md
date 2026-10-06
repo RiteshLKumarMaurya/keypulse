@@ -26,3 +26,24 @@
 - **Show only differences** now includes value-changed keys.
 - Value rows can show A/B values for missing, extra, and changed keys when **Show values** is enabled.
 - Value-change counts remain separate from structural Missing/Extra/Different counters so the summary stays accurate.
+
+
+## v6.2
+- Removed the History feature and its navigation/section.
+- Removed history persistence and history UI logic.
+- Existing v6.1 history storage key is cleared once on load.
+
+## v6.3 — Same-file recheck
+- Added **↻ Recheck files** for comparison.
+- Browse-selected files can be re-read from their original location without selecting them again.
+- Rechecking recalculates parsing, variable counts, missing/extra/different/matching results, and value changes.
+- Drag-and-drop remains supported; same-path recheck requires Browse because browsers do not expose a reusable local file handle for dropped files.
+- No file contents, paths, or handles are uploaded or stored on a server.
+
+
+## v6.2 — Same-file Recheck
+- Added **↻ Recheck files** for comparison.
+- Browse-selected files can be re-read from their original location without selecting them again.
+- Rechecking recalculates parsing, variable counts, missing/extra/different/matching results, and value changes.
+- Drag-and-drop remains supported; same-path recheck requires Browse because browsers do not expose a reusable local file handle for dropped files.
+- No file contents, paths, or handles are uploaded or stored on a server.
