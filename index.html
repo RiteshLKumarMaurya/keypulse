@@ -22,19 +22,19 @@
 
 <header class="nav reveal">
   <a class="brand magnetic" href="#top" aria-label="KeyPulse home"><span class="brand-icon"><img src="icon.png" alt=""></span><span>KeyPulse</span></a>
-  <div class="privacy-dot"><i></i><span>100% local · nothing uploaded</span></div>
+  <nav class="nav-links"><a href="#extract">Extract</a><a href="#compare">Compare</a><a href="#history">History</a><a href="#support">Support</a></nav><div class="privacy-dot"><i></i><span>Local only</span></div>
 </header>
 
 <main id="top">
 <section class="hero reveal">
   <div class="eyebrow pulse-border"><span></span>PRIVATE CONFIG UTILITY</div>
-  <h1>See your config.<br><em>Keep your secrets.</em></h1>
-  <p>Extract variable names or compare two configuration files in seconds. Everything runs inside your browser — your values never leave your device.</p>
+  <h1>Clean keys.<br><em>Compare configs.</em></h1>
+  <p>Drop a config, get a clean key list, or compare two environments side by side. Fast, simple, and processed entirely on your device.</p>
   <div class="hero-badges"><span>⌁ No uploads</span><span>ϟ Instant diff</span><span>◈ Values protected</span></div>
   <div class="hero-line"><i></i><b>LOCAL PROCESSING ACTIVE</b><i></i></div>
 </section>
 
-<section class="grid two reveal" aria-label="Variable extractor">
+<section class="grid two reveal" id="extract" aria-label="Variable extractor">
 <article class="card tilt">
   <div class="card-head"><div><span class="step">01 / EXTRACT</span><h2>Strip secrets. Keep the keys.</h2><p>Upload or paste any KEY=value style config.</p></div><button class="btn ghost magnetic" id="demoExtract">Try example</button></div>
   <div class="dropzone interactive" id="extractDrop"><div class="upload-ring"><div class="upload">↑</div></div><strong>Drop your file here</strong><span>or click to browse · .env, .txt, .config and more</span><div class="scanline"></div><input id="extractFile" type="file" hidden></div>
