@@ -46,13 +46,13 @@
   <div class="section-head"><div><span class="section-kicker">01 · EXTRACT</span><h2>Turn config into a clean key list.</h2><p>Upload a config or paste it below. Values are discarded from the output.</p></div><button class="btn quiet small" id="demoExtract">Try example</button></div>
   <div class="extract-layout">
     <article class="panel input-panel">
-      <div class="panel-title"><div><span class="panel-icon">↥</span><div><b>Input</b><small>.env, .txt, .config or pasted text</small></div></div><span class="local-tag">LOCAL</span></div>
-      <div class="dropzone" id="extractDrop"><input id="extractFile" type="file" hidden><div class="drop-icon">↑</div><b>Drop a config file here</b><span>or click to browse</span></div>
+      <div class="panel-title"><div><span class="panel-icon">↥</span><div><b>Input</b><small>any config / text file, including .env.test and .env.prod</small></div></div><span class="local-tag">● LOCAL</span></div>
+      <div class="dropzone" id="extractDrop"><input id="extractFile" type="file" accept="*/*" hidden><div class="drop-icon">↑</div><b>Drop a config file here</b><span>or click to browse</span></div>
       <div class="or"><span>OR PASTE</span></div>
       <textarea id="extractText" spellcheck="false" placeholder="DATABASE_URL=...\nAPI_KEY=...\nJWT_SECRET=..."></textarea>
     </article>
     <article class="panel output-panel">
-      <div class="panel-title"><div><span class="panel-icon safe">✓</span><div><b>Safe output</b><small id="extractMeta">0 variables · values removed</small></div></div><span class="safe-tag">VALUES REMOVED</span></div>
+      <div class="panel-title"><div><span class="panel-icon safe">✓</span><div><b>Safe output</b><small id="extractMeta">0 variables · values removed</small></div></div><span class="safe-tag">✓ VALUES REMOVED</span></div>
       <div class="key-list" id="extractOutput"><div class="empty"><span class="empty-icon">⌁</span><b>No variables yet</b><small>Upload or paste KEY=value content.</small></div></div>
       <div class="panel-footer"><span id="outputFoot">Waiting for input</span><div class="button-row"><button class="btn quiet small" id="copyKeys" disabled>Copy names</button><button class="btn primary small" id="downloadKeys" disabled>Download .txt</button></div></div>
     </article>
@@ -63,9 +63,9 @@
   <div class="section-head"><div><span class="section-kicker">02 · COMPARE</span><h2>See exactly what changed.</h2><p>Choose two environments and KeyPulse separates missing, extra, different and matching variables.</p></div><button class="btn quiet small" id="demoCompare">Load example</button></div>
   <article class="panel compare-panel">
     <div class="file-grid">
-      <div class="filebox" id="fileBoxA"><input id="fileA" type="file" hidden><div class="file-badge a">A</div><div class="file-copy"><b id="nameA">File A</b><span id="metaA">Drop or click to select</span></div><button class="file-action" type="button" aria-label="Choose File A">↑</button></div>
+      <div class="filebox" id="fileBoxA"><input id="fileA" type="file" accept="*/*" hidden><div class="file-badge a">A</div><div class="file-copy"><b id="nameA">File A</b><span id="metaA">Drop or click to select any config/text file</span></div><button class="file-action" type="button" aria-label="Choose File A">Browse</button></div>
       <div class="versus"><span>VS</span></div>
-      <div class="filebox" id="fileBoxB"><input id="fileB" type="file" hidden><div class="file-badge b">B</div><div class="file-copy"><b id="nameB">File B</b><span id="metaB">Drop or click to select</span></div><button class="file-action" type="button" aria-label="Choose File B">↑</button></div>
+      <div class="filebox" id="fileBoxB"><input id="fileB" type="file" accept="*/*" hidden><div class="file-badge b">B</div><div class="file-copy"><b id="nameB">File B</b><span id="metaB">Drop or click to select any config/text file</span></div><button class="file-action" type="button" aria-label="Choose File B">Browse</button></div>
     </div>
 
     <div class="compare-bar"><div class="mode-group"><span>COMPARE</span><button data-mode="variable" class="active">Variables</button><button data-mode="value">Values</button><button data-mode="both">Both</button></div>
@@ -79,7 +79,8 @@
       <button class="stat match-stat" data-filter="match"><strong id="matchCount">0</strong><span>Matching</span><i></i></button>
     </div>
 
-    <div class="result-controls"><div class="filters" id="filters"><button class="filter active" data-filter="all">All <b id="allCount">0</b></button><button class="filter" data-filter="missing">Missing <b id="filterMissing">0</b></button><button class="filter" data-filter="extra">Extra <b id="filterExtra">0</b></button><button class="filter" data-filter="different">Different <b id="filterDifferent">0</b></button><button class="filter value-filter" data-filter="value-different">Value changes <b id="filterValueDiff">0</b></button><button class="filter" data-filter="match">Matching <b id="filterMatch">0</b></button></div><label class="check"><input type="checkbox" id="problemsOnly"> <span>Show only differences</span></label><label class="check"><input type="checkbox" id="showValues"> <span>Show values</span></label></div>
+    <div class="result-controls"><div class="filters" id="filters"><button class="filter active" data-filter="all">All <b id="allCount">0</b></button><button class="filter" data-filter="missing">Missing <b id="filterMissing">0</b></button><button class="filter" data-filter="extra">Extra <b id="filterExtra">0</b></button><button class="filter" data-filter="different">Different <b id="filterDifferent">0</b></button><button class="filter value-filter" data-filter="value-different">Value changes <b id="filterValueDiff">0</b></button><button class="filter" data-filter="match">Matching <b id="filterMatch">0</b></button></div><div class="view-controls"><label class="check"><input type="checkbox" id="problemsOnly"> <span>Only differences</span></label><label class="check"><input type="checkbox" id="showValues"> <span>Show values</span></label></div></div>
+    <div class="copy-toolbar"><span><b id="selectedCount">0</b> selected</span><div class="copy-actions"><button class="btn quiet small" id="selectVisible" type="button">Select visible</button><button class="btn quiet small" id="clearSelection" type="button">Clear</button><button class="btn quiet small" id="copySelected" type="button" disabled>Copy selected</button><button class="btn quiet small" id="copyVisibleKeys" type="button">Copy keys</button><button class="btn quiet small" id="copyVisibleValues" type="button">Copy values</button><button class="btn primary small" id="copyVisibleAll" type="button">Copy all</button></div></div>
     <div class="summary" id="summary">Upload both files to compare.</div>
     <div class="comparison" id="comparison"><div class="empty"><span class="empty-icon">↔</span><b>Nothing compared yet</b><small>Choose two files above.</small></div></div>
     <div class="privacy-note"><span>🔒</span><div><b>Private by architecture.</b> Files are read and compared in your browser. KeyPulse has no upload endpoint and never stores your config values.</div></div>

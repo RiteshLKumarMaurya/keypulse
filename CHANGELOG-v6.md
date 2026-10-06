@@ -1,3 +1,10 @@
+## v6.4 — File picker + copy workflow
+
+- Removed restrictive extension filtering from the native file picker; `.env.test`, `.env.prod`, and other config/text filenames are selectable.
+- Fixed the Extract panel LOCAL / VALUES REMOVED tags so they render as compact pills instead of giant boxes.
+- Added row selection and bulk copy controls: Select visible, Clear, Copy selected, Copy keys, Copy values, and Copy all.
+- Bulk copy respects the current search/filter view.
+
 # KeyPulse v6 — Changelog
 
 ## Redesign
@@ -47,3 +54,10 @@
 - Rechecking recalculates parsing, variable counts, missing/extra/different/matching results, and value changes.
 - Drag-and-drop remains supported; same-path recheck requires Browse because browsers do not expose a reusable local file handle for dropped files.
 - No file contents, paths, or handles are uploaded or stored on a server.
+
+## v6.5
+- Fixed file picker behavior so config files are not restricted to `.env`.
+- Browse now accepts arbitrary local config/text file types, including extensionless and custom environment files such as `.env.test`, `.env.prod`, `.conf`, `.ini`, `.properties`, `.yaml`, `.json`, and more.
+- Reworked the file picker fallback to explicitly allow all files.
+- Fixed `LOCAL` and `VALUES REMOVED` badges becoming tall/vertical by forcing compact pill dimensions.
+- Replaced ambiguous arrow file controls with clear `Browse` buttons.

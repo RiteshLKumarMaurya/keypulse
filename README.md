@@ -1,6 +1,13 @@
-# KeyPulse v6.3
+# KeyPulse v6.4
 
 KeyPulse is a privacy-first static browser utility for extracting environment/config variable names and comparing two `KEY=value` files.
+
+## What is new in v6.4
+
+- File picker now accepts any file type so multi-dot env names such as `.env.test` and `.env.prod` work.
+- Fixed the oversized LOCAL / VALUES REMOVED tags in the Extract UI.
+- Added row selection in Compare.
+- Added Select visible, Clear, Copy selected, Copy keys, Copy values, and Copy all. Copy actions respect the active filter/search.
 
 ## What is new in v6.3
 - Complete UI redesign focused on simple, fast workflows
