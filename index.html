@@ -3,142 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07100d">
-<meta name="description" content="KeyPulse — a privacy-first browser tool to extract environment variable names and compare configuration files locally.">
-<meta property="og:title" content="KeyPulse — Private config comparison">
-<meta property="og:description" content="Extract keys and compare config files without uploading your secrets.">
+<meta name="theme-color" content="#07110d">
+<meta name="description" content="KeyPulse is a privacy-first browser tool to extract environment variable names and compare .env files locally. No uploads, no server, no secrets stored.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="KeyPulse — Private .env Extractor & Comparator">
+<meta property="og:description" content="Extract variable names and compare .env files directly in your browser. Your config stays on your device.">
 <meta property="og:type" content="website">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<title>KeyPulse — Private Config Compare</title>
+<title>KeyPulse — Private .env Extractor & Comparator</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="noise"></div>
-<div class="cursor-glow" id="cursorGlow"></div>
-<div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
-<div class="progress" id="progress"></div>
+<div class="bg-grid" aria-hidden="true"></div><div class="ambient ambient-a" aria-hidden="true"></div><div class="ambient ambient-b" aria-hidden="true"></div>
+<div class="scroll-progress" id="progress"></div>
 
-<header class="nav reveal">
-  <a class="brand magnetic" href="#top" aria-label="KeyPulse home"><span class="brand-icon"><img src="icon.png" alt=""></span><span>KeyPulse</span></a>
-  <nav class="nav-links"><a href="#extract">Extract</a><a href="#compare">Compare</a><a href="#history">History</a><a href="#support">Support</a></nav><div class="privacy-dot"><i></i><span>Local only</span></div>
+<header class="nav">
+  <a class="brand" href="#top" aria-label="KeyPulse home"><span class="brand-icon"><img src="icon.png" alt=""></span><span>KeyPulse</span></a>
+  <nav class="nav-links" aria-label="Primary navigation"><a href="#extract">Extract</a><a href="#compare">Compare</a><a href="#history">History</a><a href="#support">Support</a></nav>
+  <div class="nav-right"><span class="local-pill"><i></i>Local only</span><button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button></div>
 </header>
 
 <main id="top">
 <section class="hero reveal">
-  <div class="eyebrow pulse-border"><span></span>PRIVATE CONFIG UTILITY</div>
-  <h1>Clean keys.<br><em>Compare configs.</em></h1>
-  <p>Drop a config, get a clean key list, or compare two environments side by side. Fast, simple, and processed entirely on your device.</p>
-  <div class="hero-badges"><span>⌁ No uploads</span><span>ϟ Instant diff</span><span>◈ Values protected</span></div>
-  <div class="hero-line"><i></i><b>LOCAL PROCESSING ACTIVE</b><i></i></div>
+  <div class="hero-copy">
+    <span class="eyebrow"><i></i> PRIVATE DEVELOPER TOOL</span>
+    <h1>Compare your configs.<br><span>Keep your secrets.</span></h1>
+    <p>Extract variable names or compare two <code>.env</code> files in seconds. Everything runs in your browser — your files never get uploaded.</p>
+    <div class="hero-actions"><a class="btn primary" href="#compare">Compare files <span>→</span></a><a class="btn quiet" href="#extract">Extract keys</a></div>
+    <div class="trust-row"><span>✓ No uploads</span><span>✓ No database</span><span>✓ No account</span><span>✓ Open source</span></div>
+  </div>
+  <div class="hero-preview" aria-hidden="true">
+    <div class="preview-top"><span class="dot green"></span><span>KeyPulse / local</span><span class="preview-status">READY</span></div>
+    <div class="preview-files"><div><b>A</b><span>.env.production</span><small>58 variables</small></div><strong>VS</strong><div><b>B</b><span>.env.staging</span><small>51 variables</small></div></div>
+    <div class="preview-stats"><span class="bad">8 <small>missing</small></span><span class="warn">1 <small>extra</small></span><span class="good">50 <small>matching</small></span></div>
+    <div class="preview-lines"><i></i><i></i><i></i><i></i></div>
+  </div>
 </section>
 
-<section class="grid two reveal" id="extract" aria-label="Variable extractor">
-<article class="card tilt">
-  <div class="card-head"><div><span class="step">01 / EXTRACT</span><h2>Strip secrets. Keep the keys.</h2><p>Upload or paste any KEY=value style config.</p></div><button class="btn ghost magnetic" id="demoExtract">Try example</button></div>
-  <div class="dropzone interactive" id="extractDrop"><div class="upload-ring"><div class="upload">↑</div></div><strong>Drop your file here</strong><span>or click to browse · .env, .txt, .config and more</span><div class="scanline"></div><input id="extractFile" type="file" hidden></div>
-  <div class="divider"><span>OR PASTE CONTENT</span></div>
-  <textarea id="extractText" spellcheck="false" placeholder="DATABASE_URL=...\nAPI_KEY=...\nJWT_SECRET=..."></textarea>
-</article>
-<article class="card output-card tilt">
-  <div class="card-head"><div><span class="step">02 / SAFE OUTPUT</span><h2>Only variable names.</h2><p id="extractMeta">0 variables · values removed</p></div><span class="safe-badge"><i></i>SAFE OUTPUT</span></div>
-  <div class="output" id="extractOutput"><div class="empty"><div>⌁</div><strong>No variables yet</strong><span>Upload or paste KEY=value content.</span></div></div>
-  <div class="output-footer"><span id="outputFoot">Waiting for input</span><div class="actions"><button class="btn primary magnetic" id="copyKeys" disabled>Copy names</button><button class="btn secondary magnetic" id="downloadKeys" disabled>Download .txt</button></div></div>
-</article>
+<section class="section reveal" id="extract">
+  <div class="section-head"><div><span class="section-kicker">01 · EXTRACT</span><h2>Turn config into a clean key list.</h2><p>Upload a config or paste it below. Values are discarded from the output.</p></div><button class="btn quiet small" id="demoExtract">Try example</button></div>
+  <div class="extract-layout">
+    <article class="panel input-panel">
+      <div class="panel-title"><div><span class="panel-icon">↥</span><div><b>Input</b><small>.env, .txt, .config or pasted text</small></div></div><span class="local-tag">LOCAL</span></div>
+      <div class="dropzone" id="extractDrop"><input id="extractFile" type="file" hidden><div class="drop-icon">↑</div><b>Drop a config file here</b><span>or click to browse</span></div>
+      <div class="or"><span>OR PASTE</span></div>
+      <textarea id="extractText" spellcheck="false" placeholder="DATABASE_URL=...\nAPI_KEY=...\nJWT_SECRET=..."></textarea>
+    </article>
+    <article class="panel output-panel">
+      <div class="panel-title"><div><span class="panel-icon safe">✓</span><div><b>Safe output</b><small id="extractMeta">0 variables · values removed</small></div></div><span class="safe-tag">VALUES REMOVED</span></div>
+      <div class="key-list" id="extractOutput"><div class="empty"><span class="empty-icon">⌁</span><b>No variables yet</b><small>Upload or paste KEY=value content.</small></div></div>
+      <div class="panel-footer"><span id="outputFoot">Waiting for input</span><div class="button-row"><button class="btn quiet small" id="copyKeys" disabled>Copy names</button><button class="btn primary small" id="downloadKeys" disabled>Download .txt</button></div></div>
+    </article>
+  </div>
 </section>
 
-<section class="compare reveal" id="compare">
-  <div class="section-heading"><div><div class="eyebrow pulse-border"><span></span>FILE COMPARISON</div><h2>Find exactly what changed.</h2><p>Two files in. A precise parity report out. No line-by-line guessing.</p></div><button class="btn ghost magnetic" id="demoCompare">Try comparison example</button></div>
-  <article class="card compare-card tilt">
+<section class="section reveal" id="compare">
+  <div class="section-head"><div><span class="section-kicker">02 · COMPARE</span><h2>See exactly what changed.</h2><p>Choose two environments and KeyPulse separates missing, extra, different and matching variables.</p></div><button class="btn quiet small" id="demoCompare">Load example</button></div>
+  <article class="panel compare-panel">
     <div class="file-grid">
-      <div class="filebox interactive" id="fileBoxA"><input id="fileA" type="file" hidden><span class="file-icon">A</span><div><b id="nameA">File A</b><span id="metaA">Drop or click to select</span></div><strong>↑</strong><div class="file-scan"></div></div>
-      <div class="vs"><span>VS</span><i></i></div>
-      <div class="filebox interactive" id="fileBoxB"><input id="fileB" type="file" hidden><span class="file-icon blue">B</span><div><b id="nameB">File B</b><span id="metaB">Drop or click to select</span></div><strong>↑</strong><div class="file-scan"></div></div>
+      <div class="filebox" id="fileBoxA"><input id="fileA" type="file" hidden><div class="file-badge a">A</div><div class="file-copy"><b id="nameA">File A</b><span id="metaA">Drop or click to select</span></div><button class="file-action" type="button" aria-label="Choose File A">↑</button></div>
+      <div class="versus"><span>VS</span></div>
+      <div class="filebox" id="fileBoxB"><input id="fileB" type="file" hidden><div class="file-badge b">B</div><div class="file-copy"><b id="nameB">File B</b><span id="metaB">Drop or click to select</span></div><button class="file-action" type="button" aria-label="Choose File B">↑</button></div>
     </div>
 
-    <div class="compare-tools">
-      <div class="mode"><span>COMPARE BY</span><button data-mode="variable" class="active magnetic">Variable</button><button data-mode="value" class="magnetic">Value</button><button data-mode="both" class="magnetic">Both</button></div>
-      <label class="search">⌕ <input id="compareSearch" autocomplete="off" placeholder="Search results…"><kbd>Ctrl K</kbd></label>
+    <div class="compare-bar"><div class="mode-group"><span>COMPARE</span><button data-mode="variable" class="active">Variables</button><button data-mode="value">Values</button><button data-mode="both">Both</button></div>
+      <label class="search"><span>⌕</span><input id="compareSearch" autocomplete="off" placeholder="Search variable names…"><kbd>Ctrl K</kbd></label><button class="btn quiet small reset-btn" id="resetCompare" type="button">Reset</button>
     </div>
 
     <div class="stats" id="stats">
-      <div class="stat missing-stat"><div class="count" id="missingCount">0</div><span>Missing in B</span><i></i></div>
-      <div class="stat extra-stat"><div class="count" id="extraCount">0</div><span>Extra in B</span><i></i></div>
-      <div class="stat diff-stat"><div class="count" id="differentCount">0</div><span>Different</span><i></i></div>
-      <div class="stat match-stat"><div class="count" id="matchCount">0</div><span>Matching</span><i></i></div>
+      <button class="stat missing-stat" data-filter="missing"><strong id="missingCount">0</strong><span>Missing in B</span><i></i></button>
+      <button class="stat extra-stat" data-filter="extra"><strong id="extraCount">0</strong><span>Extra in B</span><i></i></button>
+      <button class="stat diff-stat" data-filter="different"><strong id="differentCount">0</strong><span>Different</span><i></i></button>
+      <button class="stat match-stat" data-filter="match"><strong id="matchCount">0</strong><span>Matching</span><i></i></button>
     </div>
 
-    <div class="summary" id="summary">Upload both files to see a direct comparison.</div>
-    <div class="comparison" id="comparison"><div class="empty"><div>↔</div><strong>Nothing compared yet</strong><span>Choose two files above.</span></div></div>
-    <div class="note"><span>🔒</span><b>Privacy by architecture:</b> file contents are read, parsed and compared only on this device. No upload endpoint exists.</div>
+    <div class="result-controls"><div class="filters" id="filters"><button class="filter active" data-filter="all">All <b id="allCount">0</b></button><button class="filter" data-filter="missing">Missing <b id="filterMissing">0</b></button><button class="filter" data-filter="extra">Extra <b id="filterExtra">0</b></button><button class="filter" data-filter="different">Different <b id="filterDifferent">0</b></button><button class="filter" data-filter="match">Matching <b id="filterMatch">0</b></button></div><label class="check"><input type="checkbox" id="problemsOnly"> <span>Show only differences</span></label><label class="check"><input type="checkbox" id="showValues"> <span>Show values</span></label></div>
+    <div class="summary" id="summary">Upload both files to compare.</div>
+    <div class="comparison" id="comparison"><div class="empty"><span class="empty-icon">↔</span><b>Nothing compared yet</b><small>Choose two files above.</small></div></div>
+    <div class="privacy-note"><span>🔒</span><div><b>Private by architecture.</b> Files are read and compared in your browser. KeyPulse has no upload endpoint and never stores your config values.</div></div>
   </article>
 </section>
 
-<section class="history-section reveal" id="history">
-  <div class="section-heading history-heading"><div><div class="eyebrow pulse-border"><span></span>LOCAL HISTORY</div><h2>Your recent checks.</h2><p>Saved only in this browser. No file contents or secret values are stored.</p></div><button class="btn ghost magnetic" id="clearHistory">Clear history</button></div>
-  <article class="card history-card tilt">
-    <div class="history-status"><span class="history-lock">◈</span><div><b>Private activity log</b><span>KeyPulse remembers lightweight results to make repeat checks faster.</span></div><strong id="historyCount">0 events</strong></div>
-    <div class="history-list" id="historyList"><div class="history-empty"><span>◌</span><b>No local history yet</b><small>Your extraction and comparison activity will appear here.</small></div></div>
-  </article>
+<section class="section reveal" id="history">
+  <div class="section-head"><div><span class="section-kicker">03 · HISTORY</span><h2>Recent checks, stored locally.</h2><p>Only filenames and result counts are saved. Secrets and file contents are never stored.</p></div><button class="btn quiet small" id="clearHistory">Clear history</button></div>
+  <article class="panel history-panel"><div class="history-status"><span class="panel-icon">◷</span><div><b>Browser-only activity</b><small id="historyCount">0 events</small></div><span class="history-private">PRIVATE</span></div><div class="history-list" id="historyList"><div class="empty"><span class="empty-icon">◌</span><b>No local history yet</b><small>Your extraction and comparison activity will appear here.</small></div></div></article>
 </section>
 
-<section class="features reveal">
-  <div class="feature-card"><span class="feature-no">01</span><b>Local by design</b><span>Your secrets stay inside your browser.</span></div>
-  <div class="feature-card"><span class="feature-no">02</span><b>Precise parity</b><span>Missing, extra, changed and matching are counted independently.</span></div>
-  <div class="feature-card"><span class="feature-no">03</span><b>Instant search</b><span>Jump directly to the exact variable or status you need.</span></div>
-</section>
+<section class="section mini-features reveal"><div class="mini"><span>01</span><b>Private</b><p>No server receives your config.</p></div><div class="mini"><span>02</span><b>Useful</b><p>Find real differences without noise.</p></div><div class="mini"><span>03</span><b>Simple</b><p>No account, setup or learning curve.</p></div></section>
 </main>
 
-<footer class="site-footer reveal" id="support">
-  <div class="footer-main">
-    <div class="footer-brand-block">
-      <span class="footer-brand"><img src="icon.png" alt=""> KeyPulse</span>
-      <p>Private config work, without the upload.</p>
-      <div class="footer-contact">
-        <a href="mailto:rs8651600737@gmail.com">✉ rs8651600737@gmail.com</a>
-        <a href="tel:+918651600737">☎ +91 86516 00737</a>
-        <a href="https://wa.me/918651600737" target="_blank" rel="noopener">◉ WhatsApp</a>
-      </div>
-    </div>
-    <div class="footer-actions">
-      <a class="btn secondary magnetic" href="downloads/keypulse-project.zip" download>↓ Download full project</a>
-      <button class="btn primary magnetic" id="supportBtn">♡ Support / Pay</button>
-    </div>
-  </div>
-  <div class="footer-bottom"><span>Runs locally in your browser</span><span>© <span id="year"></span> KeyPulse</span></div>
+<footer class="site-footer" id="support">
+  <div class="footer-top"><div><a class="footer-brand" href="#top"><img src="icon.png" alt="">KeyPulse</a><p>A small privacy-first utility for developers.</p><div class="contact-links"><a href="mailto:rs8651600737@gmail.com">Email</a><a href="https://wa.me/918651600737" target="_blank" rel="noopener">WhatsApp</a></div></div><div class="footer-actions"><a class="btn quiet" href="downloads/keypulse-project.zip" download>↓ Download project</a><button class="btn primary" id="supportBtn">♡ Support KeyPulse</button></div></div>
+  <div class="footer-bottom"><span>Runs entirely in your browser</span><span>© <span id="year"></span> KeyPulse · <a href="TERMS-OF-USE.md">Terms</a> · <a href="SECURITY.md">Security</a> · <a href="LICENSE.md">License</a></span></div>
 </footer>
 
-<div class="payment-modal" id="paymentModal" aria-hidden="true">
-  <div class="payment-backdrop" data-close-payment></div>
-  <div class="payment-sheet" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
-    <button class="modal-close" id="closePayment" aria-label="Close">×</button>
-    <div class="eyebrow pulse-border"><span></span>SUPPORT KEY PULSE</div>
-    <h2 id="paymentTitle">If KeyPulse saved you time,<br><em>you can support the project.</em></h2>
-    <p class="payment-copy">If this tool helped you, you can say <b class="thank-inline">thank you</b> with a small UPI contribution. Scan the secure QR below. Your config files never touch the payment flow.</p>
-    <div class="payment-grid">
-      <div class="qr-zone">
-        <div class="qr-wrap active" id="qrWrap" title="Click the QR for an animation">
-          <img id="paymentQr" src="payment-qr.png" alt="UPI payment QR code for 8651600737@ptaxis">
-          <div class="qr-cloud" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <div class="qr-success" id="qrSuccess"><span>✓</span><b>Thank you ❤️</b><small>Your support means a lot.</small></div>
-        </div>
-        <button class="scan-hint" id="scanQr" type="button">⌁ Tap scanner · watch it dissolve</button>
-      </div>
-      <div class="payment-info">
-        <div class="payment-line"><span>Creator</span><b>Ritesh Kumar</b></div>
-        <div class="payment-line"><span>Email</span><a href="mailto:rs8651600737@gmail.com">rs8651600737@gmail.com</a></div>
-        <div class="payment-line"><span>Phone</span><a href="tel:+918651600737">+91 86516 00737</a></div>
-        <div class="payment-line"><span>UPI</span><button class="copy-upi" id="copyUpi" type="button">8651600737@ptaxis · Copy</button></div>
-        <div class="payment-hint">🔒 Private by architecture · no config upload · no payment tracking by KeyPulse.</div>
-        <div class="creator-sign">Built with care by <b>Ritesh Kumar</b> · developer / creator</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-<div class="success-burst" id="successBurst" aria-hidden="true"><div class="burst-cloud"></div><div class="burst-message"><span>✓</span><b>Thank you for your support ❤️</b><small>Payment is handled by your UPI app.</small></div></div>
+<div class="payment-modal" id="paymentModal" aria-hidden="true"><div class="payment-backdrop" data-close-payment></div><div class="payment-sheet" role="dialog" aria-modal="true" aria-labelledby="paymentTitle"><button class="modal-close" id="closePayment" aria-label="Close">×</button><span class="section-kicker">SUPPORT THE TOOL</span><h2 id="paymentTitle">If KeyPulse saved you time,<br><span>a small thank-you helps.</span></h2><p>Your contribution goes through UPI. KeyPulse does not verify or store payment information.</p><div class="payment-grid"><div class="qr-zone"><div class="qr-wrap" id="qrWrap"><img id="paymentQr" src="payment-qr.png" alt="UPI payment QR code"><div class="qr-particles" aria-hidden="true"></div><div class="qr-success" id="qrSuccess"><b>Thank you ❤️</b><small>Your support means a lot.</small></div></div><button class="scan-hint" id="scanQr" type="button">Tap QR for a little thank-you animation</button></div><div class="payment-info"><div><span>UPI ID</span><button id="copyUpi" type="button">8651600737@ptaxis · Copy</button></div><div><span>Email</span><a href="mailto:rs8651600737@gmail.com">rs8651600737@gmail.com</a></div><div><span>Phone</span><a href="tel:+918651600737">+91 86516 00737</a></div></div></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="app.js"></script>
 </body>
 </html>
