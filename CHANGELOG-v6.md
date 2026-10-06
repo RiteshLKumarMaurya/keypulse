@@ -19,3 +19,10 @@
 - Local history continues to store metadata only.
 - Config values are not written to localStorage.
 - Values are only rendered when the user explicitly enables Show values.
+
+## v6.1 — Value mismatch insight
+- Added a **Value changes** filter that finds shared keys whose values differ, even when the current comparison mode is Variables.
+- Matching keys with changed values now receive a clear **Value differs** badge.
+- **Show only differences** now includes value-changed keys.
+- Value rows can show A/B values for missing, extra, and changed keys when **Show values** is enabled.
+- Value-change counts remain separate from structural Missing/Extra/Different counters so the summary stays accurate.
